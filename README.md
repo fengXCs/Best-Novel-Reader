@@ -2,119 +2,91 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/fengXCs/Best-Novel-Reader?style=for-the-badge&logo=github&label=Star)](https://github.com/fengXCs/Best-Novel-Reader/stargazers)
 
-A discreet and comfortable novel reader for Visual Studio Code. Read local `.txt` novels directly in the bottom **Document Preview** panel, with continuous scrolling, chapter search, progress restoration, and customizable typography.
-
-一个更隐蔽、更顺手的 VS Code 本地小说阅读器。可直接在底部的 **“文档预览”** 面板阅读 `.txt` 小说，并支持连续滚动、章节搜索、进度恢复和排版调节。
+一个更隐蔽、更顺手的 VS Code 本地小说阅读器。小说内容显示在底部的“文档预览”面板中，和终端放在一起，不需要额外打开窗口。
 
 > **可能是目前 VS Code 插件市场中最好用的上班摸鱼看小说软件。**
->
-> Best Novel Reader 将阅读功能完整集成在 VS Code 底部窗口中，与终端自然融为一体；无需额外打开独立窗口，并集成了日常小说阅读几乎所需的全部功能。阅读面板低调、切换迅速，也尽量不打断原本的工作界面和操作习惯。
 
-> **Perhaps the most capable discreet novel reader currently available on the VS Code Marketplace.**
->
-> Best Novel Reader lives naturally beside the terminal in VS Code's bottom panel and brings together nearly everything needed for everyday novel reading—without opening a separate application or disrupting the rest of your workspace.
+翻页、连续滚动、章节搜索、进度恢复和排版调节都已经集成在底部面板里，平时阅读基本不需要再离开这个界面。章节和控件可以随时收起，尽量不占正文空间。
 
-如果你觉得 Best Novel Reader 好用，欢迎前往 [GitHub 项目仓库](https://github.com/fengXCs/Best-Novel-Reader) 点一个 **Star**，这会帮助插件继续改进。
-
-If Best Novel Reader is useful to you, please consider giving the [GitHub repository](https://github.com/fengXCs/Best-Novel-Reader) a **Star**.
+如果觉得好用，欢迎给 [GitHub 仓库](https://github.com/fengXCs/Best-Novel-Reader) 点个 Star。
 
 ---
 
-## Highlights / 重点新增功能
+## 重点功能
 
-### ⭐ Near-universal Chinese chapter-title recognition / 近乎全面的中文章节标题识别
+### 更完整的章节识别
 
-The original chapter parser has been substantially improved to recognize nearly all chapter-title styles commonly found in novels on the market. It supports Arabic numerals, common and financial Chinese numerals, flexible spacing, and chapter markers such as chapters, sections, volumes, and collections. It also recognizes special titles including prologues, wedges, main text, epilogues, afterwords, endings, and extras, while avoiding common false matches.
+优化了原插件的章节读取规则，能识别市面上近乎全部的常见小说章节标题：
 
-对原有章节读取与解析进行了大幅优化，能够识别市面上近乎全部的常见小说章节标题。支持阿拉伯数字、中文数字、中文大写数字、灵活空格，以及“章、节、卷、集”等章节形式；同时支持“序章、楔子、正文、终章、后记、尾声、番外”等特殊标题，并尽量避开“课程”“集合”等常见误判。
+- 支持阿拉伯数字、中文数字和中文大写数字。
+- 支持标题中的不规则空格。
+- 支持“章、节、卷、集”等格式。
+- 支持“序章、楔子、正文、终章、后记、尾声、番外”等特殊标题。
+- 对“课程”“集合”等容易误判的文字做了排除。
 
-### ⭐ Continuous scrolling with nearby chapter preloading / 连续滚动与相邻章节预加载
+### 翻页和连续滚动
 
-Switch between **Chapter Paging** and **Continuous Scrolling** at any time. In scrolling mode, nearby chapters above and below are loaded automatically, so you can keep scrolling across chapter boundaries—including upward from the initially opened chapter.
+阅读控件中可以随时选择“章节翻页”或“连续滚动”。
 
-阅读控件中可随时切换 **“章节翻页”** 和 **“连续滚动”**。连续滚动模式会自动加载当前章节上下相邻的内容，可以自然跨章节向下阅读，也可以从初始章节继续向上滚动。
+连续滚动会预先加载当前章节附近的内容，既可以一路向下看，也可以从刚打开的章节继续向上翻。加载上方章节时会保持当前位置，不会把正文顶到章节中间。
 
-To avoid unbounded memory growth, only a limited recent chapter window is retained and older content is reclaimed automatically.
+缓存有数量和大小限制，较远的章节会自动清理，长时间使用不会一直堆积内存。
 
-为避免长期使用造成内存持续增长，插件只保留有限的近期章节窗口，并会自动回收较远的内容。
+### 自动恢复阅读进度
 
-### ⭐ Read immediately after reopening / 自动恢复阅读现场
+插件会记住上次打开的小说、章节、阅读模式和排版设置。从终端切回“文档预览”后可以接着看，不会重新显示欢迎页，也不需要再去侧边栏点一次小说。
 
-The reader restores the last opened novel, chapter, reading mode, and reading settings. Switching between the terminal and Document Preview no longer returns to the old welcome message or requires selecting the novel again.
+### 面板内搜索和跳转
 
-插件会恢复上次打开的小说、章节、阅读模式和排版设置。切换终端后再回到“文档预览”，不会再回到欢迎页，也不需要重新点击小说。
+点击阅读面板中的“章节”，可以直接：
 
-### ⭐ Search and jump without leaving the reader / 阅读面板内查找与跳转
+- 查找已导入的小说。
+- 搜索并跳转到指定章节。
+- 切换小说。
+- 添加新的本地 `.txt` 文件。
+- 滚动浏览较长的小说和章节列表。
 
-Open the **Chapters** panel to:
+### 自定义排版
 
-* Search imported documents.
-* Search and jump to chapters.
-* Switch novels without returning to the sidebar.
-* Add another local `.txt` document directly from the reading panel.
-* Scroll long document and chapter lists.
+点击“控件”可以调整字号、行距和段距，也可以切换阅读形式。正文统一使用两字符缩进，章节标题不缩进，设置会自动保存。
 
-打开阅读面板中的 **“章节”** 控件，即可：
+### 快速切到终端
 
-* 查找已导入的文档。
-* 查找章节并直接跳转。
-* 不离开阅读面板切换小说。
-* 直接添加新的本地 `.txt` 文档。
-* 滚动浏览较长的文档和章节列表。
+文档预览获得焦点时，快速按两次 `Esc` 可以直接切换到终端。这个快捷操作只负责切到终端，返回文档预览时手动点击即可，不会占用终端里的 `Esc`。
 
-### ⭐ Comfortable, customizable typography / 舒适且可自定义的排版
+### 更低调的显示
 
-Use the **Controls** panel to adjust font size, line height, and paragraph spacing. Body paragraphs use a consistent two-character first-line indent, while chapter titles remain unindented. Settings are kept for the next reading session.
-
-在 **“控件”** 中可调整字号、行距和段距。正文段落保持统一的两字符缩进，章节标题不缩进；设置会保留到下一次阅读。
-
-### Quick switch to terminal / 快速切换到终端
-
-Press `Esc` twice quickly while the reading panel is focused to jump directly to the terminal. This is intentionally one-way: return to Document Preview manually, preventing terminal shortcuts from being intercepted.
-
-文档预览获得焦点时，快速连按两次 `Esc` 即可直接切换到终端。该快捷操作只负责单向切到终端；返回文档预览请手动点击，避免干扰终端自身快捷键。
-
-### Discreet panel presentation / 更低调的面板展示
-
-The bottom reading panel is displayed as **“文档预览”** instead of exposing a reader-specific name. Chapter and reading controls can be collapsed to leave more room for content.
-
-底部阅读面板显示为更自然的 **“文档预览”**，不会直接暴露阅读器名称；章节与阅读控件均可收起，尽量减少对正文阅读的影响。
+底部面板显示为“文档预览”，不会直接出现小说阅读器名称。章节列表和阅读控件都能隐藏，收起后只保留正文。
 
 ---
 
-## Original Features / 原有功能
+## 原有功能
 
-* **Reference-based import / 引用式导入**: Import local `.txt` files without copying their contents. Moving or deleting the source file will make it unavailable to the extension.
-* **Novel sidebar / 小说侧边栏**: Browse imported novels and chapter trees from the Best Novel Reader activity-bar view.
-* **Reading progress / 阅读进度**: Open a novel at its last recorded chapter from the sidebar.
-* **Chapter navigation / 章节切换**: Use Previous/Next buttons or the left/right arrow keys while the reading panel is focused.
-* **Safe removal / 安全移除**: Removing a novel from the sidebar only removes its reference; the source file is not deleted.
-* **Local text compatibility / 本地文本兼容**: Reads local text files with common encodings; chapter extraction is enhanced by the expanded title-recognition rules described above.
+- 从本地导入 `.txt` 小说，插件只保存文件引用，不会复制或删除源文件。
+- 在侧边栏查看已经导入的小说和章节。
+- 从侧边栏直接回到某本小说的上次阅读位置。
+- 使用上一章、下一章按钮或左右方向键翻页。
+- 支持常见的本地文本编码。
+- 从书架移除小说时只删除引用，不会删除本地文件。
 
----
-
-## How to Use / 使用说明
-
-1. Click the book icon in the Activity Bar to open **Best Novel Reader**. / 点击活动栏中的书本图标，打开 **Best Novel Reader**。
-2. Click the plus icon to import a local `.txt` novel. / 点击加号，导入本地 `.txt` 小说。
-3. Select a chapter, or use the book button beside a novel to continue from the last position. / 点击章节开始阅读，或点击小说旁的书本按钮继续上次进度。
-4. Read in the bottom **Document Preview / 文档预览** panel. / 在底部 **“文档预览”** 面板中阅读。
-5. Use **Chapters / 章节** for document and chapter search; use **Controls / 控件** for reading mode and typography. / 使用 **“章节”** 查找文档或跳转章节，使用 **“控件”** 调整阅读模式与排版。
+> 如果源文件被移动或删除，插件将无法继续读取该小说。
 
 ---
 
-## Credits and Modification Notice / 来源与修改说明
+## 使用方法
 
-Best Novel Reader is modified from [Le-dawn/novel-reader](https://github.com/Le-dawn/novel-reader) version `0.0.4`, originally released under the MIT License.
-
-Best Novel Reader 基于 [Le-dawn/novel-reader](https://github.com/Le-dawn/novel-reader) `0.0.4` 版本修改，原项目采用 MIT License。
-
-This version retains the original import, sidebar, and basic chapter-reading capabilities, and adds the Document Preview presentation, automatic context restoration, in-panel document/chapter browsing and search, paging/continuous reading modes, bidirectional nearby-chapter loading, bounded memory reclamation, typography controls, improved Chinese chapter matching, and the double-`Esc` terminal shortcut.
-
-本版本保留原有的导入、侧边栏和基础章节阅读能力，并新增“文档预览”展示、阅读上下文自动恢复、面板内文档/章节浏览与搜索、翻页/连续滚动双模式、上下章节预加载、有限缓存与内存回收、排版调节、改进的中文章节识别，以及双击 `Esc` 切换终端等功能。
-
-See `LICENSE.txt` in the extension package for license details.
+1. 点击活动栏中的书本图标，打开 **Best Novel Reader**。
+2. 点击侧边栏右上角的加号，选择本地 `.txt` 小说。
+3. 点击章节开始阅读，也可以点击小说旁边的书本按钮继续上次进度。
+4. 小说会显示在底部的“文档预览”面板中。
+5. 使用“章节”搜索小说或跳转章节，使用“控件”调整阅读方式和排版。
 
 ---
 
-**Enjoy reading! / 阅读愉快！**
+## 修改说明
+
+本插件基于 [Le-dawn/novel-reader](https://github.com/Le-dawn/novel-reader) `0.0.4` 修改，原项目使用 MIT License。
+
+在原有导入、侧边栏和基础章节阅读功能之上，增加了文档预览面板、阅读现场恢复、面板内文档与章节搜索、翻页和连续滚动双模式、上下章节预加载、缓存回收、排版调节、更完整的中文章节识别，以及双击 `Esc` 切换终端等功能。
+
+许可证内容见 `LICENSE.txt`。
