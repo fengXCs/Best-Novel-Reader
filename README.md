@@ -22,6 +22,12 @@ If Best Novel Reader is useful to you, please consider giving the [GitHub reposi
 
 ## Highlights / 重点新增功能
 
+### ⭐ Near-universal Chinese chapter-title recognition / 近乎全面的中文章节标题识别
+
+The original chapter parser has been substantially improved to recognize nearly all chapter-title styles commonly found in novels on the market. It supports Arabic numerals, common and financial Chinese numerals, flexible spacing, and chapter markers such as chapters, sections, volumes, and collections. It also recognizes special titles including prologues, wedges, main text, epilogues, afterwords, endings, and extras, while avoiding common false matches.
+
+对原有章节读取与解析进行了大幅优化，能够识别市面上近乎全部的常见小说章节标题。支持阿拉伯数字、中文数字、中文大写数字、灵活空格，以及“章、节、卷、集”等章节形式；同时支持“序章、楔子、正文、终章、后记、尾声、番外”等特殊标题，并尽量避开“课程”“集合”等常见误判。
+
 ### ⭐ Continuous scrolling with nearby chapter preloading / 连续滚动与相邻章节预加载
 
 Switch between **Chapter Paging** and **Continuous Scrolling** at any time. In scrolling mode, nearby chapters above and below are loaded automatically, so you can keep scrolling across chapter boundaries—including upward from the initially opened chapter.
@@ -83,7 +89,7 @@ The bottom reading panel is displayed as **“文档预览”** instead of expos
 * **Reading progress / 阅读进度**: Open a novel at its last recorded chapter from the sidebar.
 * **Chapter navigation / 章节切换**: Use Previous/Next buttons or the left/right arrow keys while the reading panel is focused.
 * **Safe removal / 安全移除**: Removing a novel from the sidebar only removes its reference; the source file is not deleted.
-* **Local text compatibility / 本地文本兼容**: Reads local text files with common encodings and recognizes common Chinese chapter-title formats.
+* **Local text compatibility / 本地文本兼容**: Reads local text files with common encodings; chapter extraction is enhanced by the expanded title-recognition rules described above.
 
 ---
 

@@ -10,5 +10,6 @@ Initial release of Best Novel Reader, based on `Le-dawn/novel-reader` 0.0.4.
 * Added chapter paging and bidirectional continuous scrolling.
 * Added bounded nearby-chapter caching and memory reclamation.
 * Added font size, line height, and paragraph spacing controls.
-* Improved Chinese chapter-title recognition and paragraph indentation.
+* Expanded Chinese chapter-title recognition to cover nearly all common market formats, including special chapter names, flexible spacing, Arabic numerals, and multiple Chinese numeral styles.
+* Improved paragraph indentation.
 * Added double-`Esc` switching from Document Preview to the terminal.
