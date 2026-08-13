@@ -77,6 +77,23 @@ Open Chapters in the reading panel to find novels, search and jump to chapters, 
 
 Open Controls to adjust font size, line height, paragraph spacing, and reading mode. Body paragraphs use a consistent two-character indent, chapter titles remain unindented, and your settings are saved automatically.
 
+### 阅读快捷键 / Reading shortcuts
+
+阅读面板获得焦点时，可以使用以下快捷键：
+
+When the reading panel is focused, use these shortcuts:
+
+- `←`：切换到上一章。<br>
+  `←`: Go to the previous chapter.
+- `→`：切换到下一章。<br>
+  `→`: Go to the next chapter.
+- 连按两次 `Esc`：从文档预览切换到终端。返回文档预览时请手动点击。<br>
+  Press `Esc` twice quickly: Switch from Document Preview to the terminal. Click Document Preview manually when you want to return.
+
+左右方向键在输入框和下拉框获得焦点时不会触发章节切换；双击 `Esc` 只在阅读面板中生效，不会接管终端里的 `Esc`。
+
+The arrow keys do not change chapters while a text field or select control is focused. Double-`Esc` works only in the reading panel and does not take over `Esc` inside the terminal.
+
 ### 快速切到终端 / Quick switch to terminal
 
 文档预览获得焦点时，快速按两次 `Esc` 可以直接切换到终端。这个快捷操作只负责切到终端，返回文档预览时手动点击即可，不会占用终端里的 `Esc`。
