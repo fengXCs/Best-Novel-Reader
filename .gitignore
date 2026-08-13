@@ -1,0 +1,6 @@
+.idea/
+*.vsix
+.vsixmanifest
+pnpm-lock.yaml
+test.json
+dist/*.codex-backup-*

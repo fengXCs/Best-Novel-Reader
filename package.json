@@ -1,0 +1,130 @@
+{
+	"name": "best-novel-reader",
+	"displayName": "Best Novel Reader",
+	"description": "A discreet and comfortable novel reader with continuous scrolling, chapter search, progress restoration, and typography controls.",
+	"version": "0.1.0",
+	"publisher": "fengXCs",
+	"icon": "icon.png",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/fengXCs/Best-Novel-Reader.git"
+	},
+	"homepage": "https://github.com/fengXCs/Best-Novel-Reader#readme",
+	"bugs": {
+		"url": "https://github.com/fengXCs/Best-Novel-Reader/issues"
+	},
+	"engines": {
+		"vscode": "^1.66.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"keywords": [
+		"novel",
+		"reader",
+		"reading",
+		"txt",
+		"小说",
+		"阅读器",
+		"章节",
+		"滚动阅读"
+	],
+	"activationEvents": [
+		"onView:novelReaderSidebar",
+		"onStartupFinished"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "novelReader.importNovel",
+				"title": "导入小说",
+				"icon": "$(add)"
+			},
+			{
+				"command": "novelReader.refreshSidebar",
+				"title": "Refresh",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "novelReader.deleteNovel",
+				"title": "Delete Novel",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "novelReader.showCurrentChapter",
+				"title": "Show Current Chapter",
+				"icon": "$(book)"
+			},
+			{
+				"command": "novelReader.searchChapter",
+				"title": "搜索章节",
+				"icon": "$(search)"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "novelReaderContainer",
+					"title": "Best Novel Reader",
+					"icon": "$(book)"
+				}
+			],
+			"panel": [
+				{
+					"id": "documentPreviewPanel",
+					"title": "文档预览",
+					"icon": "$(preview)"
+				}
+			]
+		},
+		"views": {
+			"novelReaderContainer": [
+				{
+					"id": "novelReaderSidebar",
+					"name": "Best Novel Reader",
+					"contextualTitle": "Best Novel Reader"
+				}
+			],
+			"documentPreviewPanel": [
+				{
+					"id": "documentPreviewView",
+					"name": "文档预览",
+					"type": "webview"
+				}
+			]
+		},
+		"menus": {
+			"view/title": [
+				{
+					"command": "novelReader.importNovel",
+					"when": "view == novelReaderSidebar",
+					"group": "navigation"
+				},
+				{
+					"command": "novelReader.refreshSidebar",
+					"when": "view == novelReaderSidebar",
+					"group": "navigation"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "novelReader.showCurrentChapter",
+					"when": "viewItem == 'novelItem'",
+					"group": "inline@1"
+				},
+				{
+					"command": "novelReader.deleteNovel",
+					"when": "viewItem == 'novelItem'",
+					"group": "inline@2"
+				},
+				{
+					"command": "novelReader.searchChapter",
+					"when": "viewItem == 'novelItem'",
+					"group": "inline@3"
+				}
+			]
+		}
+	}
+}
