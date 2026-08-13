@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.1
+
+Updated Marketplace metadata and release version.
+
 ## 0.1.0
 
 Initial release of Best Novel Reader, based on `Le-dawn/novel-reader` 0.0.4.
