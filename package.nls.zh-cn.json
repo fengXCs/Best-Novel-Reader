@@ -1,0 +1,9 @@
+{
+	"description": "一款低调舒适的小说阅读器，支持连续滚动、章节搜索、进度恢复和排版调节。",
+	"command.importNovel": "导入小说",
+	"command.refresh": "刷新",
+	"command.deleteNovel": "删除小说",
+	"command.showCurrentChapter": "显示当前章节",
+	"command.searchChapter": "搜索章节",
+	"view.documentPreview": "文档预览"
+}

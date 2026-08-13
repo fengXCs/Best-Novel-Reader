@@ -1,0 +1,9 @@
+{
+	"description": "A discreet and comfortable novel reader with continuous scrolling, chapter search, progress restoration, and typography controls.",
+	"command.importNovel": "Import Novel",
+	"command.refresh": "Refresh",
+	"command.deleteNovel": "Delete Novel",
+	"command.showCurrentChapter": "Show Current Chapter",
+	"command.searchChapter": "Search Chapters",
+	"view.documentPreview": "Document Preview"
+}

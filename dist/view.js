@@ -13,6 +13,41 @@ const CONTROLS_VISIBLE_KEY = 'documentPreview.controlsVisible';
 const DEFAULT_READING_SETTINGS = Object.freeze({ mode: 'chapter', lineHeight: 1.65, paragraphSpacing: 0 });
 const MAX_SCROLL_CHAPTERS = 12;
 const MAX_SCROLL_CHARACTERS = 1500000;
+const IS_CHINESE = /^zh(?:-|$)/i.test(vscode.env.language || '');
+
+function localize(chinese, english) {
+    return IS_CHINESE ? chinese : english;
+}
+
+const UI_TEXT = Object.freeze({
+    documentPreview: localize('文档预览', 'Document Preview'),
+    chapters: localize('章节', 'Chapters'),
+    controls: localize('控件', 'Controls'),
+    hideChapters: localize('隐藏章节', 'Hide Chapters'),
+    hideControls: localize('隐藏控件', 'Hide Controls'),
+    chapterPaging: localize('章节翻页', 'Chapter Paging'),
+    continuousScrolling: localize('连续滚动', 'Continuous Scrolling'),
+    addDocument: localize('添加文档', 'Add Document'),
+    documents: localize('文档列表', 'Documents'),
+    findDocuments: localize('查找文档…', 'Find documents…'),
+    findChapters: localize('查找章节…', 'Find chapters…'),
+    readingMode: localize('阅读形式', 'Reading Mode'),
+    lineHeight: localize('行距', 'Line Height'),
+    paragraphSpacing: localize('段距', 'Paragraph Spacing'),
+    fontSize: localize('字号', 'Font Size'),
+    reset: localize('恢复默认', 'Reset'),
+    previousChapter: localize('上一章', 'Previous'),
+    chapterJump: localize('章节跳转', 'Go to Chapter'),
+    nextChapter: localize('下一章', 'Next'),
+    closeReader: localize('关闭阅读', 'Close'),
+    chooseDocument: localize('请选择一个文档', 'Choose a document'),
+    welcomeHint: localize('可在上方查找、打开或添加文档。', 'Find, open, or add a document above.'),
+    noMatchingDocuments: localize('没有匹配的文档', 'No matching documents'),
+    noDocuments: localize('尚未添加文档', 'No documents added'),
+    selectDocumentFirst: localize('先选择左侧文档', 'Select a document on the left'),
+    noMatchingChapters: localize('没有匹配的章节', 'No matching chapters'),
+    noChapters: localize('未识别到章节', 'No chapters recognized')
+});
 
 function clampNumber(value, min, max, fallback) {
     const number = Number(value);
@@ -71,7 +106,7 @@ class NovelReaderViewProvider {
             this._chapterListSentPath = undefined;
         }
         const novelText = (0, utils_1.readTextFileWithAutoEncoding)(novel.path);
-        const chapters = (0, chapterParser_1.parseChapters)(novelText);
+        const chapters = (0, chapterParser_1.parseChapters)(novelText, localize('全文', 'Full Text'));
         this._chapterCache.delete(novel.path);
         this._chapterCache.set(novel.path, { fingerprint, chapters });
         while (this._chapterCache.size > 2) {
@@ -83,7 +118,7 @@ class NovelReaderViewProvider {
 
     resolveWebviewView(webviewView, _context, _token) {
         this._view = webviewView;
-        webviewView.title = '文档预览';
+        webviewView.title = UI_TEXT.documentPreview;
         webviewView.webview.options = {
             enableScripts: true,
             localResourceRoots: [this._context.extensionUri]
@@ -218,7 +253,7 @@ class NovelReaderViewProvider {
             });
         }
         catch (error) {
-            vscode.window.showErrorMessage(`读取文档失败: ${error}`);
+            vscode.window.showErrorMessage(`${localize('读取文档失败', 'Failed to read document')}: ${error}`);
         }
     }
 
@@ -283,7 +318,7 @@ class NovelReaderViewProvider {
             const chapters = this._getCachedChapters(novel);
             this._chapters = chapters;
             if (!chapters.length) {
-                vscode.window.showInformationMessage('没有找到可阅读的章节。');
+                vscode.window.showInformationMessage(localize('没有找到可阅读的章节。', 'No readable chapters were found.'));
                 return;
             }
             const safeIndex = Math.max(0, Math.min(chapterIndex, chapters.length - 1));
@@ -330,7 +365,7 @@ class NovelReaderViewProvider {
                     payload: { direction: direction === 'before' ? 'before' : 'after', requestId }
                 });
             }
-            vscode.window.showErrorMessage(`读取章节失败: ${error}`);
+            vscode.window.showErrorMessage(`${localize('读取章节失败', 'Failed to read chapter')}: ${error}`);
         }
     }
 
@@ -366,7 +401,7 @@ class NovelReaderViewProvider {
 
     navigateChapter(direction) {
         if (!this._currentNovel) {
-            vscode.window.showInformationMessage('请先打开一个文档。');
+            vscode.window.showInformationMessage(localize('请先打开一个文档。', 'Open a document first.'));
             return;
         }
         const newIndex = this._currentChapterIndex + (direction === 'next' ? 1 : -1);
@@ -377,7 +412,7 @@ class NovelReaderViewProvider {
 
     focusTerminal() {
         Promise.resolve(vscode.commands.executeCommand('workbench.action.terminal.focus')).catch(error => {
-            vscode.window.showErrorMessage(`切换到终端失败: ${error}`);
+            vscode.window.showErrorMessage(`${localize('切换到终端失败', 'Failed to focus the terminal')}: ${error}`);
         });
     }
 
@@ -388,11 +423,11 @@ class NovelReaderViewProvider {
         const hasRestorableDocument = Boolean(this._currentNovel || this._pendingChapter || this._getNovels().some(novel => novel.id === lastViewedId));
         const navigationVisible = hasRestorableDocument ? 'false' : 'true';
         return `<!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="${IS_CHINESE ? 'zh-CN' : 'en'}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>文档预览</title>
+    <title>${UI_TEXT.documentPreview}</title>
     <style>
         * { box-sizing: border-box; }
         :root { --reader-line-height: 1.65; --reader-paragraph-spacing: 0px; }
@@ -436,57 +471,58 @@ class NovelReaderViewProvider {
 </head>
 <body data-initial-controls="${controlsVisible}" data-initial-navigation="${navigationVisible}">
     <div id="reader-toolbar" class="reader-toolbar">
-        <button id="toggle-navigation">章节</button>
-        <button id="toggle-controls">控件</button>
-        <span id="mode-indicator" class="mode-indicator">章节翻页</span>
+        <button id="toggle-navigation">${UI_TEXT.chapters}</button>
+        <button id="toggle-controls">${UI_TEXT.controls}</button>
+        <span id="mode-indicator" class="mode-indicator">${UI_TEXT.chapterPaging}</span>
         <span class="toolbar-spacer"></span>
-        <button id="import-document">添加文档</button>
+        <button id="import-document">${UI_TEXT.addDocument}</button>
     </div>
     <section id="navigation-panel" class="overlay-panel">
         <div class="browser-grid">
             <div class="browser-column">
-                <div class="column-title">文档列表</div>
-                <input id="document-search" type="search" placeholder="查找文档…" aria-label="查找文档">
+                <div class="column-title">${UI_TEXT.documents}</div>
+                <input id="document-search" type="search" placeholder="${UI_TEXT.findDocuments}" aria-label="${UI_TEXT.findDocuments}">
                 <div id="document-list" class="list-scroll"></div>
             </div>
             <div class="browser-column">
-                <div id="chapter-heading" class="column-title">章节</div>
-                <input id="chapter-search" type="search" placeholder="查找章节…" aria-label="查找章节">
+                <div id="chapter-heading" class="column-title">${UI_TEXT.chapters}</div>
+                <input id="chapter-search" type="search" placeholder="${UI_TEXT.findChapters}" aria-label="${UI_TEXT.findChapters}">
                 <div id="chapter-list" class="list-scroll"></div>
             </div>
         </div>
     </section>
     <section id="controls-panel" class="overlay-panel hidden">
         <div class="control-grid">
-            <label class="control-field">阅读形式
-                <select id="reading-mode"><option value="chapter">章节翻页</option><option value="scroll">连续滚动</option></select>
+            <label class="control-field">${UI_TEXT.readingMode}
+                <select id="reading-mode"><option value="chapter">${UI_TEXT.chapterPaging}</option><option value="scroll">${UI_TEXT.continuousScrolling}</option></select>
             </label>
-            <label class="control-field">行距 <span id="line-height-value" class="range-value">1.65</span>
+            <label class="control-field">${UI_TEXT.lineHeight} <span id="line-height-value" class="range-value">1.65</span>
                 <input id="line-height" type="range" min="1.2" max="2.5" step="0.05" value="1.65">
             </label>
-            <label class="control-field">段距 <span id="paragraph-spacing-value" class="range-value">0px</span>
+            <label class="control-field">${UI_TEXT.paragraphSpacing} <span id="paragraph-spacing-value" class="range-value">0px</span>
                 <input id="paragraph-spacing" type="range" min="0" max="32" step="2" value="0">
             </label>
         </div>
         <div class="control-row">
-            <button data-action="font-down">字号−</button><span class="font-size-display">16px</span><button data-action="font-up">字号+</button>
+            <button data-action="font-down">${UI_TEXT.fontSize}−</button><span class="font-size-display">16px</span><button data-action="font-up">${UI_TEXT.fontSize}+</button>
             <span class="grow"></span>
-            <button id="reset-reading-settings">恢复默认</button>
-            <button data-action="previous">上一章</button><button data-action="chapters">章节跳转</button><button data-action="next">下一章</button><button data-action="close">关闭阅读</button>
+            <button id="reset-reading-settings">${UI_TEXT.reset}</button>
+            <button data-action="previous">${UI_TEXT.previousChapter}</button><button data-action="chapters">${UI_TEXT.chapterJump}</button><button data-action="next">${UI_TEXT.nextChapter}</button><button data-action="close">${UI_TEXT.closeReader}</button>
         </div>
     </section>
     <div id="reader-container" class="hidden">
         <div id="chapter-page">
             <h2 id="title"></h2>
             <div id="content" class="chapter-text"></div>
-            <div class="page-bottom-controls"><button data-action="previous">上一章</button><button data-action="chapters">章节跳转</button><button data-action="next">下一章</button></div>
+            <div class="page-bottom-controls"><button data-action="previous">${UI_TEXT.previousChapter}</button><button data-action="chapters">${UI_TEXT.chapterJump}</button><button data-action="next">${UI_TEXT.nextChapter}</button></div>
         </div>
         <div id="scroll-page" class="hidden"><div id="scroll-content"></div></div>
     </div>
-    <div id="welcome-message"><strong>请选择一个文档</strong><span>可在上方查找、打开或添加文档。</span></div>
+    <div id="welcome-message"><strong>${UI_TEXT.chooseDocument}</strong><span>${UI_TEXT.welcomeHint}</span></div>
 
     <script nonce="${nonce}">
         const vscode = acquireVsCodeApi();
+        const ui = ${JSON.stringify(UI_TEXT)};
         const MAX_SCROLL_CHAPTERS = ${MAX_SCROLL_CHAPTERS};
         const MAX_SCROLL_CHARACTERS = ${MAX_SCROLL_CHARACTERS};
         const initialControlsVisible = document.body.dataset.initialControls === 'true';
@@ -534,9 +570,9 @@ class NovelReaderViewProvider {
             if (visible && panel === navigation && !controls.classList.contains('hidden')) setPanelVisible(controls, false);
             if (visible && panel === controls && !navigation.classList.contains('hidden')) setPanelVisible(navigation, false);
             panel.classList.toggle('hidden', !visible);
-            if (panel === navigation) document.getElementById('toggle-navigation').textContent = visible ? '隐藏章节' : '章节';
+            if (panel === navigation) document.getElementById('toggle-navigation').textContent = visible ? ui.hideChapters : ui.chapters;
             if (panel === controls) {
-                document.getElementById('toggle-controls').textContent = visible ? '隐藏控件' : '控件';
+                document.getElementById('toggle-controls').textContent = visible ? ui.hideControls : ui.controls;
                 vscode.postMessage({ command: 'setControlsVisible', payload: visible });
             }
         }
@@ -544,7 +580,7 @@ class NovelReaderViewProvider {
             const query = normalized(documentSearch.value);
             const novels = state.novels.filter(item => normalized(item.title).includes(query));
             documentList.replaceChildren();
-            if (!novels.length) { showEmpty(documentList, state.novels.length ? '没有匹配的文档' : '尚未添加文档'); return; }
+            if (!novels.length) { showEmpty(documentList, state.novels.length ? ui.noMatchingDocuments : ui.noDocuments); return; }
             novels.forEach(novel => {
                 const button = document.createElement('button'); button.className = 'list-item' + (novel.path === state.currentPath ? ' active' : ''); button.textContent = novel.title; button.title = novel.title;
                 button.addEventListener('click', () => { state.currentPath = novel.path; state.currentChapter = novel.currentChapter || 0; renderDocuments(); vscode.postMessage({ command: 'requestChapters', payload: { path: novel.path } }); });
@@ -556,8 +592,8 @@ class NovelReaderViewProvider {
             const query = normalized(chapterSearch.value);
             const matches = state.chapters.map((chapter, index) => ({ title: chapter, index })).filter(item => normalized(item.title).includes(query));
             chapterList.replaceChildren();
-            if (!state.currentPath) { showEmpty(chapterList, '先选择左侧文档'); return; }
-            if (!matches.length) { showEmpty(chapterList, state.chapters.length ? '没有匹配的章节' : '未识别到章节'); return; }
+            if (!state.currentPath) { showEmpty(chapterList, ui.selectDocumentFirst); return; }
+            if (!matches.length) { showEmpty(chapterList, state.chapters.length ? ui.noMatchingChapters : ui.noChapters); return; }
             matches.forEach(item => {
                 const button = document.createElement('button'); button.className = 'list-item' + (item.index === state.currentChapter ? ' active' : ''); button.textContent = item.title; button.title = item.title;
                 button.addEventListener('click', () => { setPanelVisible(navigation, false); vscode.postMessage({ command: 'openChapter', payload: { path: state.currentPath, index: item.index } }); });
@@ -579,7 +615,7 @@ class NovelReaderViewProvider {
             state.mode = settings.mode === 'scroll' ? 'scroll' : 'chapter';
             state.lineHeight = Math.max(1.2, Math.min(2.5, Number(settings.lineHeight) || 1.65));
             state.paragraphSpacing = Math.max(0, Math.min(32, Number(settings.paragraphSpacing) || 0));
-            modeSelect.value = state.mode; modeIndicator.textContent = state.mode === 'scroll' ? '连续滚动' : '章节翻页'; applyTypography();
+            modeSelect.value = state.mode; modeIndicator.textContent = state.mode === 'scroll' ? ui.continuousScrolling : ui.chapterPaging; applyTypography();
         }
         function updateFontSize(direction, persist = true) {
             if (direction === 'increase' && currentFontSize < MAX_FONT_SIZE) currentFontSize += FONT_STEP;
@@ -685,7 +721,7 @@ class NovelReaderViewProvider {
             renderChapterPage();
         }
         function switchMode(mode) {
-            const nextMode = mode === 'scroll' ? 'scroll' : 'chapter'; if (state.mode === nextMode) return; if (nextMode === 'chapter') syncScrollChapter(); state.mode = nextMode; modeIndicator.textContent = nextMode === 'scroll' ? '连续滚动' : '章节翻页'; saveReadingSettings();
+            const nextMode = mode === 'scroll' ? 'scroll' : 'chapter'; if (state.mode === nextMode) return; if (nextMode === 'chapter') syncScrollChapter(); state.mode = nextMode; modeIndicator.textContent = nextMode === 'scroll' ? ui.continuousScrolling : ui.chapterPaging; saveReadingSettings();
             if (nextMode === 'scroll') enterScrollMode(); else enterChapterMode();
         }
         function requestPreviousScrollChapter() {
@@ -756,10 +792,10 @@ class NovelReaderViewProvider {
         window.addEventListener('message', event => {
             const message = event.data;
             if (message.command === 'updateLibrary') { state.novels = message.payload.novels || []; if (message.payload.currentPath) state.currentPath = message.payload.currentPath; applySettings(message.payload.readingSettings); renderDocuments(); if (!state.currentPath) renderChapters(); }
-            else if (message.command === 'updateChapters') { state.currentPath = message.payload.path; state.currentChapter = Number(message.payload.currentChapter) || 0; state.chapters = message.payload.chapters || []; state.chapterCount = state.chapters.length; chapterHeading.textContent = '章节 · ' + message.payload.title; renderDocuments(); renderChapters(); }
+            else if (message.command === 'updateChapters') { state.currentPath = message.payload.path; state.currentChapter = Number(message.payload.currentChapter) || 0; state.chapters = message.payload.chapters || []; state.chapterCount = state.chapters.length; chapterHeading.textContent = ui.chapters + ' · ' + message.payload.title; renderDocuments(); renderChapters(); }
             else if (message.command === 'updateContent') handleContent(message.payload);
             else if (message.command === 'chapterChanged') { state.currentChapter = Number(message.payload.index) || 0; renderChapters(); }
-            else if (message.command === 'resetView') { state.novels = state.novels || []; state.chapters = []; state.currentPath = null; state.currentChapter = 0; state.chapterCount = 0; state.currentTitle = ''; state.currentContent = ''; state.scrollLoadingBefore = false; state.scrollLoadingAfter = false; state.scrollPreviousIndex = -1; state.scrollNextIndex = 0; state.scrollSession += 1; state.lastProgressIndex = -1; state.contentByIndex.clear(); state.scrollLoaded.clear(); chapterHeading.textContent = '章节'; renderDocuments(); renderChapters(); showWelcome(); }
+            else if (message.command === 'resetView') { state.novels = state.novels || []; state.chapters = []; state.currentPath = null; state.currentChapter = 0; state.chapterCount = 0; state.currentTitle = ''; state.currentContent = ''; state.scrollLoadingBefore = false; state.scrollLoadingAfter = false; state.scrollPreviousIndex = -1; state.scrollNextIndex = 0; state.scrollSession += 1; state.lastProgressIndex = -1; state.contentByIndex.clear(); state.scrollLoaded.clear(); chapterHeading.textContent = ui.chapters; renderDocuments(); renderChapters(); showWelcome(); }
             else if (message.command === 'chapterContentError') {
                 if (!message.payload || message.payload.requestId !== state.scrollSession) return;
                 if (message.payload.direction === 'before') state.scrollLoadingBefore = false; else state.scrollLoadingAfter = false;

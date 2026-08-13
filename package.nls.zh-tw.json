@@ -1,0 +1,9 @@
+{
+	"description": "一款低調舒適的小說閱讀器，支援連續捲動、章節搜尋、進度恢復和排版調整。",
+	"command.importNovel": "匯入小說",
+	"command.refresh": "重新整理",
+	"command.deleteNovel": "刪除小說",
+	"command.showCurrentChapter": "顯示目前章節",
+	"command.searchChapter": "搜尋章節",
+	"view.documentPreview": "文件預覽"
+}

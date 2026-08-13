@@ -1,7 +1,7 @@
 {
 	"name": "best-novel-reader",
 	"displayName": "Best Novel Reader",
-	"description": "A discreet and comfortable novel reader with continuous scrolling, chapter search, progress restoration, and typography controls.",
+	"description": "%description%",
 	"version": "0.1.0",
 	"publisher": "fengXCs",
 	"icon": "icon.png",
@@ -39,27 +39,27 @@
 		"commands": [
 			{
 				"command": "novelReader.importNovel",
-				"title": "导入小说",
+				"title": "%command.importNovel%",
 				"icon": "$(add)"
 			},
 			{
 				"command": "novelReader.refreshSidebar",
-				"title": "Refresh",
+				"title": "%command.refresh%",
 				"icon": "$(refresh)"
 			},
 			{
 				"command": "novelReader.deleteNovel",
-				"title": "Delete Novel",
+				"title": "%command.deleteNovel%",
 				"icon": "$(trash)"
 			},
 			{
 				"command": "novelReader.showCurrentChapter",
-				"title": "Show Current Chapter",
+				"title": "%command.showCurrentChapter%",
 				"icon": "$(book)"
 			},
 			{
 				"command": "novelReader.searchChapter",
-				"title": "搜索章节",
+				"title": "%command.searchChapter%",
 				"icon": "$(search)"
 			}
 		],
@@ -74,7 +74,7 @@
 			"panel": [
 				{
 					"id": "documentPreviewPanel",
-					"title": "文档预览",
+					"title": "%view.documentPreview%",
 					"icon": "$(preview)"
 				}
 			]
@@ -90,7 +90,7 @@
 			"documentPreviewPanel": [
 				{
 					"id": "documentPreviewView",
-					"name": "文档预览",
+					"name": "%view.documentPreview%",
 					"type": "webview"
 				}
 			]

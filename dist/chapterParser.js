@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.parseChapters = parseChapters;
-function parseChapters(text) {
+function parseChapters(text, fullTextTitle = 'Full Text') {
     if (!text) {
         return [];
     }
@@ -35,7 +35,7 @@ function parseChapters(text) {
     }
     // If no chapters were found at all, return the entire text as a single "chapter"
     if (chapters.length === 0 && text.trim()) {
-        return [{ title: 'Full Text', content: text.trim() }];
+        return [{ title: fullTextTitle, content: text.trim() }];
     }
     return chapters;
 }

@@ -13,3 +13,4 @@ Initial release of Best Novel Reader, based on `Le-dawn/novel-reader` 0.0.4.
 * Expanded Chinese chapter-title recognition to cover nearly all common market formats, including special chapter names, flexible spacing, Arabic numerals, and multiple Chinese numeral styles.
 * Improved paragraph indentation.
 * Added double-`Esc` switching from Document Preview to the terminal.
+* Added automatic Chinese and English interface switching based on the VS Code display language.
