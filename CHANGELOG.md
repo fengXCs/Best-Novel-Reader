@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.1.2
+
+Added a concise feature overview near the top of the README for quicker scanning, while retaining the full bilingual documentation below.
+
 ## 0.1.1
 
 Updated Marketplace metadata and release version.

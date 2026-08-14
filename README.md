@@ -18,9 +18,26 @@ Paging, continuous scrolling, chapter search, progress restoration, and typograp
 
 If you find it useful, please consider giving the [GitHub repository](https://github.com/fengXCs/Best-Novel-Reader) a Star.
 
+## 功能一览 / At a glance
+
+- **底部隐蔽阅读 / Discreet bottom-panel reading**：小说显示在“文档预览”面板，和终端融为一体。<br>
+  Read novels in the Document Preview panel beside the terminal.
+- **章节识别 / Chapter recognition**：支持阿拉伯数字、中文数字、序章、番外等近乎全部常见标题。<br>
+  Recognizes nearly all common chapter-title formats, including Arabic/Chinese numerals, prologues, and extras.
+- **两种阅读模式 / Two reading modes**：章节翻页或连续滚动，自动加载上下章节并回收远处缓存。<br>
+  Choose chapter paging or continuous scrolling with nearby loading and bounded cache.
+- **面板内搜索 / In-panel search**：搜索小说、查找章节、直接跳转，也能添加新的 `.txt` 文件。<br>
+  Find novels and chapters, jump directly, and add new `.txt` files.
+- **进度与排版 / Progress and typography**：自动恢复阅读位置，自定义字号、行距、段距和缩进。<br>
+  Restore your place and customize font size, line height, spacing, and indentation.
+- **快捷键 / Shortcuts**：`←` 上一章，`→` 下一章，快速双击 `Esc` 切到终端。<br>
+  `←` previous chapter, `→` next chapter, and double-`Esc` to focus the terminal.
+- **中英文界面 / Bilingual UI**：跟随 VS Code 显示语言自动切换。<br>
+  Follows the VS Code display language automatically.
+
 ---
 
-## 重点功能 / Highlights
+## 详细功能 / Detailed features
 
 ### 跟随 VS Code 切换语言 / Follows the VS Code display language
 
